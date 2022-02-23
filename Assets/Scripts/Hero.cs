@@ -13,6 +13,7 @@ public class Hero : MonoBehaviour
 
     private bool isGround;
     public bool gameMode3D = true;
+    bool checkSwitch = false;
 
     Quaternion startingRotation;
     float rotHor;
@@ -23,7 +24,11 @@ public class Hero : MonoBehaviour
         startingRotation = transform.rotation;
     }
 
-    
+    public void SwitchCheckSwitch()
+    {
+        checkSwitch = !checkSwitch;
+    }
+
     void FixedUpdate()
     {
         if(gameMode3D)
@@ -87,6 +92,21 @@ public class Hero : MonoBehaviour
             isGround = true;
     }
 
+    void RunTo2D()
+    {
+        //if((Input.GetButtonDown("DoSomething"))&&checkSwitch)
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Trigger2D")
+        {
+            SetGameMode();
+            other.gameObject.GetComponent<Tetst2d3d>().To2D();
+        }
+    }
+
     private void OnCollisionExit(Collision other) 
     {
          if(other.gameObject.tag == "Ground")
@@ -95,7 +115,7 @@ public class Hero : MonoBehaviour
 
     public void SetGameMode()
     {
-        gameMode3D = false;
+        gameMode3D = !gameMode3D;
     }
  
 }

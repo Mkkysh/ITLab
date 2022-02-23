@@ -18,18 +18,22 @@ public class Tetst2d3d : MonoBehaviour
         
     }
 
-  
+    public void To2D()
+    {
+        h.SetGameMode();
+        //camera.transform.position = Vector3.Lerp(camera.transform.position,g.position,5*Time.deltaTime);
+        camera.transform.position = g.position;
+        camera.transform.rotation = transform.rotation;
+        camera.orthographic = true;
+        camera.orthographicSize = (float)0.7;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Hero")
         {
-            h.SetGameMode();
-            //camera.transform.position = Vector3.Lerp(camera.transform.position,g.position,5*Time.deltaTime);
-            camera.transform.position = g.position;
-            camera.transform.rotation = transform.rotation;
-            camera.orthographic = true;
-            camera.orthographicSize = (float)0.7;
+            h.SwitchCheckSwitch();
+            To2D();
         }
     }
 }

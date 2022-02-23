@@ -12,10 +12,15 @@ public class Hero2D : MonoBehaviour
 
     Rigidbody2D rb;
 
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    void SwitchGameMode()
+    {
+        if(Input.GetButtonDown("DoSomething"))
+            h.SetGameMode();
     }
 
     float Hor2D()
