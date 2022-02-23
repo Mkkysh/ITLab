@@ -12,6 +12,7 @@ public class Hero : MonoBehaviour
     [SerializeField]float sensivity = 5;
 
     private bool isGround;
+    public bool gameMode3D = true;
 
     Quaternion startingRotation;
     float rotHor;
@@ -25,9 +26,12 @@ public class Hero : MonoBehaviour
     
     void FixedUpdate()
     {
-        Walk();
-        Jump();
-        CameraRotation();
+        if(gameMode3D)
+        {
+            Walk();
+            Jump();
+            CameraRotation();
+        }
     }
 
     float Hor()
@@ -59,10 +63,7 @@ public class Hero : MonoBehaviour
 
     void CameraRotation()
     {
-        //camera.transform.rotation = startingRotation*RotHor()*transform.rotation;
-        Quaternion q = startingRotation*transform.rotation*RotHor();
-        q.z = 0;
-        camera.transform.rotation = q;
+        camera.transform.rotation = startingRotation*transform.rotation*RotHor();
         transform.rotation = startingRotation*RotVer();
     }
  
@@ -90,6 +91,11 @@ public class Hero : MonoBehaviour
     {
          if(other.gameObject.tag == "Ground")
             isGround = false;
+    }
+
+    public void SetGameMode()
+    {
+        gameMode3D = false;
     }
  
 }
