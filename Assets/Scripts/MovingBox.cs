@@ -14,7 +14,6 @@ public class MovingBox : MonoBehaviour
         gameMaster =  GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMasterScript>();
         hero =  GameObject.FindGameObjectWithTag("Hero").GetComponent<Hero>();
         posBoxTrigger = transform.GetChild(0);
-        Debug.Log(transform.GetChild(0).name);
         posBoxTrigger.position = new Vector3(posBoxTrigger.position.x,hero.transform.position.y, posBoxTrigger.position.z);
     }
 
@@ -24,10 +23,15 @@ public class MovingBox : MonoBehaviour
         {
             hero.gameObject.transform.rotation = transform.rotation;
             hero.gameObject.transform.position = new Vector3(posBoxTrigger.position.x,hero.transform.position.y, posBoxTrigger.position.z);
-            transform.parent.Translate(new Vector3(Input.GetAxis("Horizontal")*Time.deltaTime*(float)4.84,0,Input.GetAxis("Vertical")*Time.deltaTime*(float)4.84));
-            //Debug.Log(Quaternion.Angle(transform.parent.position, hero.gameObject.transform.position));
-            Debug.Log(Vector3.Normalize(transform.parent.position));
-            //transform.parent.Translate(transform.parent.position + hero.gameObject.transform.position);
+           
+            if(Mathf.Approximately(Quaternion.Angle(hero.gameObject.transform.rotation, transform.parent.rotation), 0f))
+                transform.parent.Translate(new Vector3(Input.GetAxis("Horizontal")*Time.deltaTime*(float)4.84,0,Input.GetAxis("Vertical")*Time.deltaTime*(float)4.84));
+            else if(Mathf.Approximately(Quaternion.Angle(hero.gameObject.transform.rotation, transform.parent.rotation), 180f))
+                transform.parent.Translate(new Vector3(-Input.GetAxis("Horizontal")*Time.deltaTime*(float)4.84,0,-Input.GetAxis("Vertical")*Time.deltaTime*(float)4.84));
+            else if(transform.localPosition.x > 0)        
+                transform.parent.Translate(new Vector3(-Input.GetAxis("Vertical")*Time.deltaTime*(float)4.84,0,Input.GetAxis("Horizontal")*Time.deltaTime*(float)4.84));
+            else
+                transform.parent.Translate(new Vector3(Input.GetAxis("Vertical")*Time.deltaTime*(float)4.84,0,-Input.GetAxis("Horizontal")*Time.deltaTime*(float)4.84));
         }
     }
 
