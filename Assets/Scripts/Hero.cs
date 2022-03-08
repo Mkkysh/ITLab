@@ -16,6 +16,7 @@ public class Hero : MonoBehaviour
     bool checkSwitch = false;
     public bool boxWalkig = false;
 
+    Rigidbody rb;
     Quaternion startingRotation;
     GameMasterScript gameMaster;
     float rotHor;
@@ -24,6 +25,7 @@ public class Hero : MonoBehaviour
     void Start()
     {
         gameMaster =  GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMasterScript>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public void SwitchCheckSwitch()
@@ -31,7 +33,7 @@ public class Hero : MonoBehaviour
         checkSwitch = !checkSwitch;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(gameMode3D)
         {
@@ -78,6 +80,7 @@ public class Hero : MonoBehaviour
     void Walk()
     {
         transform.Translate(new Vector3(Hor(),0,Ver()));
+        //rb.MovePosition(transform.position + new Vector3(Hor(),0,Ver()));
     }                  
 
     void Jump()
