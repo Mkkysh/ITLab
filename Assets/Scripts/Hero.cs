@@ -5,7 +5,7 @@ using UnityEngine;
 public class Hero : MonoBehaviour
 {
 
-    public Camera camera;
+    //public Camera camera;
     
     [SerializeField]float speed = 10;
     [SerializeField]float jumpSpeed = 50;
@@ -14,14 +14,16 @@ public class Hero : MonoBehaviour
     private bool isGround;
     public bool gameMode3D = true;
     bool checkSwitch = false;
+    public bool boxWalkig = false;
 
     Quaternion startingRotation;
+    GameMasterScript gameMaster;
     float rotHor;
     float rotVer;
 
     void Start()
     {
-        startingRotation = transform.rotation;
+        gameMaster =  GameObject.FindGameObjectWithTag("GameMaster").GetComponent<GameMasterScript>();
     }
 
     public void SwitchCheckSwitch()
@@ -29,13 +31,14 @@ public class Hero : MonoBehaviour
         checkSwitch = !checkSwitch;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if(gameMode3D)
         {
+            BoxWalkig();
             Walk();
             Jump();
-            CameraRotation();
+            //CameraRotation();
         }
     }
 
@@ -66,11 +69,11 @@ public class Hero : MonoBehaviour
         return rotY;
     }
 
-    void CameraRotation()
-    {
-        camera.transform.rotation = startingRotation*transform.rotation*RotHor();
-        transform.rotation = startingRotation*RotVer();
-    }
+    // void CameraRotation()
+    // {
+    //     camera.transform.rotation = startingRotation*transform.rotation*RotHor();
+    //     transform.rotation = startingRotation*RotVer();
+    // }
  
     void Walk()
     {
@@ -92,6 +95,12 @@ public class Hero : MonoBehaviour
             isGround = true;
     }
 
+    void BoxWalkig()
+    {
+        if(gameMaster.avalibaleBox && Input.GetButtonDown("DoSomething"))
+            boxWalkig = !boxWalkig;
+    }
+
     void RunTo2D()
     {
         //if((Input.GetButtonDown("DoSomething"))&&checkSwitch)
@@ -100,11 +109,7 @@ public class Hero : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Trigger2D")
-        {
-            SetGameMode();
-            other.gameObject.GetComponent<Tetst2d3d>().To2D();
-        }
+       
     }
 
     private void OnCollisionExit(Collision other) 
