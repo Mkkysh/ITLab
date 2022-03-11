@@ -35,24 +35,25 @@ public class Hero : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(gameMode3D)
+        if(gameMaster.gameMode)
         {
             BoxWalkig();
             Walk();
             Jump();
+            RunTo2D();
             //CameraRotation();
         }
     }
 
     float Hor()
     {
-        float hor = Input.GetAxis("Horizontal")*Time.deltaTime*speed;
+        float hor = Input.GetAxis("Horizontal");
         return hor;
     }
 
     float Ver()
     {
-        float ver = Input.GetAxis("Vertical")*Time.deltaTime*speed;
+        float ver = Input.GetAxis("Vertical");
         return ver;
     }
 
@@ -79,8 +80,9 @@ public class Hero : MonoBehaviour
  
     void Walk()
     {
-        transform.Translate(new Vector3(Hor(),0,Ver()));
+        transform.Translate(new Vector3(Hor(),0,Ver()).normalized * speed);
         //rb.MovePosition(transform.position + new Vector3(Hor(),0,Ver()));
+        //rb.AddForce(new Vector3(Hor(),0,Ver()), ForceMode.VelocityChange);
     }                  
 
     void Jump()
@@ -106,7 +108,11 @@ public class Hero : MonoBehaviour
 
     void RunTo2D()
     {
-        //if((Input.GetButtonDown("DoSomething"))&&checkSwitch)
+        if((Input.GetButtonDown("DoSomething"))&&gameMaster.avalibale)
+        {
+            gameMaster.gameMode = false;
+            gameMaster.ChangeMode();
+        }
 
     }
 

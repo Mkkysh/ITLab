@@ -20,7 +20,8 @@ public class GameMasterScript : MonoBehaviour
     
     void Update()
     {
-        CameraChecker();
+        //CameraChecker();
+        Debug.Log(avalibale);
     }
 
     void ChangeCamera(int index)
